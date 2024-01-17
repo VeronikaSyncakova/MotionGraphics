@@ -1,0 +1,12 @@
+﻿  Food.cpp
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\Pacman\Pacman\Food.cpp(22,28): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Game.cpp
+  Player.cpp
+  main.cpp
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\Pacman\Pacman\main.cpp(23,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating Code...
+  Pacman.vcxproj -> C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\Pacman\Debug\Pacman.exe
