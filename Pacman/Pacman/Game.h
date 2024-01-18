@@ -3,6 +3,7 @@
 #define GAME_HPP
 #include "Player.h"
 #include"Food.h"
+#include "Ghost.h"
 
 class Game
 {
@@ -21,6 +22,8 @@ private:
 	void initialise();
 	void setupFood();
 	void drawFood();
+	void checkCollision();
+	bool foodGone();
 	
 	void setupFontAndText();
 	void setupSprite();
@@ -36,6 +39,9 @@ private:
 
 	Player pacman;
 	std::vector<Food> foodVector;
+	Ghost ghost;
+
+	int score = 0;
 
 	bool m_exitGame; // control exiting game
 

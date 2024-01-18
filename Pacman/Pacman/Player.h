@@ -8,6 +8,8 @@ public:
 	sf::RectangleShape getBody() const;
 	void move();
 	void changeDirection();
+	float getPositionX();
+	void reset();
 
 private:
 	sf::RectangleShape m_body;

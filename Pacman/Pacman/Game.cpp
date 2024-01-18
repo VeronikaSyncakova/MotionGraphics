@@ -96,6 +96,8 @@ void Game::update(sf::Time t_deltaTime)
 		m_window.close();
 	}
 	pacman.move();
+	ghost.move(pacman);
+	checkCollision();
 }
 
 /// <summary>
@@ -106,7 +108,10 @@ void Game::render()
 	m_window.clear(sf::Color::Black);
 	m_window.draw(topLine);
 	m_window.draw(bottomLine);
+	m_welcomeMessage.setString("Score: " + std::to_string(score));
+	m_window.draw(m_welcomeMessage);
 	drawFood();
+	m_window.draw(ghost.getBody());
 	m_window.draw(pacman.getBody());
 
 	m_window.display();
@@ -117,6 +122,7 @@ void Game::render()
 /// </summary>
 void::Game::initialise()
 {
+	setupFontAndText();
 	topLine.setSize(sf::Vector2f(600.f, 5.0f));
 	topLine.setPosition(sf::Vector2f(100.0f, 200.0f));
 	bottomLine.setSize(sf::Vector2f(600.f, 5.0f));
@@ -147,11 +153,57 @@ void Game::setupFood()
 
 void Game::drawFood()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < foodVector.size(); i++)
 	{
 		m_window.draw(foodVector.at(i).getBody());
 	}
 }
+
+void Game::checkCollision()
+{
+	int offScreenFood = 0;
+	for (int i = 0; i < foodVector.size(); i++)
+	{
+		if (foodVector.at(i).collision(pacman.getBody()))
+		{
+			foodVector.at(i).moveOffScreen();
+			if (foodVector.at(i).isCherry())
+			{
+				ghost.cherryInfected();
+				score += 2;
+			}
+			else
+			{
+				score += 1;
+			}
+		}
+		if (foodVector.at(i).isOffScreen())
+		{
+			offScreenFood++;
+		}
+	}
+
+	if (offScreenFood == foodVector.size())
+	{
+		foodVector.clear();
+		setupFood();
+	}
+
+	if (pacman.getBody().getGlobalBounds().intersects(ghost.getBody().getGlobalBounds()))
+	{
+		if (!ghost.infected())
+		{
+			pacman.reset();
+			score = 0;
+		}
+		else
+		{
+			score += 3;
+		}
+		ghost.reset(pacman);
+	}
+}
+
 
 /// <summary>
 /// load the font and setup the text message for screen
@@ -163,7 +215,7 @@ void Game::setupFontAndText()
 		std::cout << "problem loading arial black font" << std::endl;
 	}
 	m_welcomeMessage.setFont(m_ArialBlackfont);
-	m_welcomeMessage.setString("SFML Game");
+	m_welcomeMessage.setString("Score: "+score);
 	m_welcomeMessage.setStyle(sf::Text::Underlined | sf::Text::Italic | sf::Text::Bold);
 	m_welcomeMessage.setPosition(40.0f, 40.0f);
 	m_welcomeMessage.setCharacterSize(80U);
