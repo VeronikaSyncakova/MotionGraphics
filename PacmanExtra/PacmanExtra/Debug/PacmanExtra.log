@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PacmanExtra\PacmanExtra\main.cpp(42,43): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PacmanExtra\PacmanExtra\main.cpp(90,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  PacmanExtra.vcxproj -> C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PacmanExtra\Debug\PacmanExtra.exe

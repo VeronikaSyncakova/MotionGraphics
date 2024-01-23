@@ -135,6 +135,7 @@ void Game::setupFood()
 {
 	int cherryIndex = rand() % 10;
 	int x = 100;
+	foodVector.clear();
 	for (int i = 0; i < 10; i++)
 	{
 		x += FOOD_SPACE;
@@ -194,6 +195,7 @@ void Game::checkCollision()
 		if (!ghost.infected())
 		{
 			pacman.reset();
+			setupFood();
 			score = 0;
 		}
 		else

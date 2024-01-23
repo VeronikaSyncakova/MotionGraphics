@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PacmanExtra\Debug\PacmanExtra.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PacmanExtra\PacmanExtra\ASSETS\FONTS\ariblk.ttf</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PacmanExtra\PacmanExtra\ASSETS\IMAGES\SFML-LOGO.png</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
