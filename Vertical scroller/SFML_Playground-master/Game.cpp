@@ -38,7 +38,7 @@ void Game::init()
 			y -= wallSize.y;
 			x = 0.f;
 		}
-		if (i % 10 == 0 && (i / 10) % 2 == 0)
+		if (levelData[i] == 4)
 		{
 			levelWalls[i].setFillColor(sf::Color::Blue);
 		}
@@ -54,7 +54,25 @@ void Game::init()
 		projectiles[i].setSize(sf::Vector2f(projectileSize.x, projectileSize.y));
 		projectiles[i].setOrigin(sf::Vector2f(projectileSize.x / 2, projectileSize.y / 2));
 		projectiles[i].setFillColor(sf::Color::Yellow);
-		projectiles[i].setPosition(xPosition, yPosition);
+		projectiles[i].setPosition(projectilePosition);
+	}
+
+	for (int i = 0; i < ENEMY_PROJECTILES; i++)
+	{
+		enemyProjectiles[i].setSize(sf::Vector2f(projectileSize.x, projectileSize.y));
+		enemyProjectiles[i].setOrigin(sf::Vector2f(projectileSize.x / 2, projectileSize.y / 2));
+		enemyProjectiles[i].setFillColor(sf::Color::Yellow);
+		
+	}
+	int counter = 0;
+	for (int j = 0; j < BLOCKS_NUM; j++)
+	{
+		if (levelData[j] >= 2)
+		{
+			enemyProjectiles[counter].setPosition(levelWalls[j].getPosition() + wallSize / 2.f);
+			startPositionProj[counter] = levelWalls[j].getPosition() + wallSize / 2.f;
+			counter++;
+		}
 	}
 
 #ifdef TEST_FPS
@@ -136,19 +154,29 @@ void Game::processGameEvents(sf::Event& event)
 			break;
 		}
 	}
+}
+
+void Game::processKeys()
+{
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		xPosition -= speed;
-		projectilePosition.x = xPosition;
+
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		xPosition += speed;
-		projectilePosition.x = xPosition;
+
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+	if (shootInterval <= 0)
 	{
-		shooting = true;
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+			shooting = true;
+			if (activeBullets < 10);
+			activeBullets++;
+			shootInterval = shootCooldown;
+		}
 	}
 }
 
@@ -168,12 +196,20 @@ void Game::moveDown()
 			x = 0.f;
 		}
 	}
+
+	for (sf::RectangleShape& b : enemyProjectiles)
+		b.move(0.f, wallSpeed);
 }
 
 bool Game::collision()
 {
 	for (int i = 0; i < BLOCKS_NUM; i++)
 	{
+		for (int j = 0; j < ENEMY_PROJECTILES; j++)
+		{
+			if (levelWalls[i].getGlobalBounds().intersects(enemyProjectiles[j].getGlobalBounds()) && levelData[i] == 1)
+				enemyProjectiles[j].setPosition(startPositionProj[j].x, enemyProjectiles[j].getPosition().y);
+		}
 		if (levelData[i] == 1)
 		{
 			if (levelWalls[i].getGlobalBounds().intersects(simpleRectangle.getGlobalBounds()))
@@ -181,35 +217,104 @@ bool Game::collision()
 				return true;
 			}
 		}
+		
 	}
 	return false;
 }
 
-void Game::shoot()
+void Game::projectileCollision()
 {
-	if (activeBullets < 10)
+	for (int i = 0; i < BLOCKS_NUM; i++)
 	{
-		for (int i = 0; i <= activeBullets; i++)
+		if (levelData[i] != 0)
 		{
-			projectilePosition.y = projectiles[i].getPosition().y;
-			projectiles[i].setPosition(projectilePosition.x, projectilePosition.y - 5);
+			for (int j = 0; j < NUM_PROJECTILES; j++)
+			{
+				if (levelWalls[i].getGlobalBounds().intersects(projectiles[j].getGlobalBounds()))
+				{
+					if (levelData[i] > 2)
+					{
+						levelData[i]-- ;
+					}
+					else if (levelData[i] == 2)
+					{
+						levelData[i] = 0;
+					}
+					projectiles[j].setPosition(offScreen, yPosition);
+				}
+			}
 		}
-		activeBullets++;
 	}
 }
+
+void Game::enemyShooting()
+{
+	int counter = 0;
+
+	for (int i = 0; i < BLOCKS_NUM; i++)
+	{
+
+		if (levelData[i] >= 2)
+		{
+			if (levelData[i + 1] == 1)//shooting to the left 
+			{
+				enemyProjectiles[counter].move(-5.0f, 0.0f);
+				counter++;
+				continue;
+
+			}
+			else // shooting to the right (levelData[i - 1] == -1)
+			{
+				enemyProjectiles[counter].move(5.0f, 0.0f);
+				counter++;
+				continue;
+			}
+		}
+	}
+	enemyTimer--;
+}
+
+void Game::moveProjectiles()
+{
+	for (int i = 0; i < NUM_PROJECTILES; i++)
+	{
+		projectilePosition.y = projectiles[i].getPosition().y;
+		projectiles[i].setPosition(projectiles[i].getPosition().x, projectilePosition.y + shootSpeed);
+	}
+	shootInterval--;
+}
+
+void Game::shoot()
+{
+	if (shooting)
+	{
+		for (int i = 0; i < NUM_PROJECTILES; i++)
+		{
+			if (projectiles[i].getPosition().x == offScreen)
+			{
+				projectiles[i].setPosition(simpleRectangle.getPosition());
+				break;
+			}
+		}
+		shooting = false;
+	}
+}
+
+
 
 ////////////////////////////////////////////////////////////
 void Game::update(double dt)
 {
+	processKeys();
 	simpleRectangle.setPosition(xPosition, yPosition);
 	if (!collision())
 	{
 		moveDown();
+		enemyShooting();
 	}
-	if (shooting)
-	{
-		shoot();
-	}
+	shoot();
+	moveProjectiles();
+	projectileCollision();
 }
 
 ////////////////////////////////////////////////////////////
@@ -219,14 +324,18 @@ void Game::render()
 
 	for (int index = 0; index < BLOCKS_NUM; index++)
 	{
-		if (levelData[index] == 1)
+		if (levelData[index] !=0)
 		{
 			m_window.draw(levelWalls[index]);
 		}
 	}
-	for (int i = 0; i < activeBullets; i++)
+	for (int i = 0; i < NUM_PROJECTILES; i++)
 	{
 		m_window.draw(projectiles[i]);
+	}
+	for (int i = 0; i < ENEMY_PROJECTILES; i++)
+	{
+		m_window.draw(enemyProjectiles[i]);
 	}
 	m_window.draw(simpleRectangle);
 

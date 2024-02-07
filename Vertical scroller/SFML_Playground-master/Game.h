@@ -78,11 +78,16 @@ protected:
 	/// <param name="event">system event</param>
 	void processGameEvents(sf::Event&);
 
+	void processKeys();
+
 	void moveDown();
 
 	bool collision();
 
+	void moveProjectiles();
 	void shoot();
+	void projectileCollision();
+	void enemyShooting();
 
 	// Font used for all text
 	sf::Font m_arialFont;
@@ -90,16 +95,16 @@ protected:
 	sf::RenderWindow m_window;
 	static int const BLOCKS_NUM = 100;
 	int levelData[BLOCKS_NUM] =
-	{ 1,1,1,0,0,0,1,1,1,1,
+	{ 1,1,1,1,0,0,1,1,1,1,
 	1,1,1,1,0,0,0,0,1,1,
-	1,1,1,1,0,0,0,1,1,1,
-	1,1,1,1,0,0,0,0,1,1,
-	1,1,1,1,1,1,0,0,1,1,
+	1,1,1,1,0,0,0,4,1,1,
+	1,1,1,1,4,0,0,0,1,1,
+	1,1,1,1,1,4,0,0,1,1,
 	1,1,1,1,1,1,0,0,0,1,
 	1,1,1,1,1,0,0,0,1,1,
+	1,1,1,0,0,0,4,1,1,1,
 	1,1,1,0,0,0,1,1,1,1,
-	1,1,1,0,0,0,1,1,1,1,
-	1,1,1,1,0,0,0,1,1,1 };
+	1,1,1,4,0,0,0,1,1,1 };
 	sf::RectangleShape levelWalls[BLOCKS_NUM];
 	sf::Vector2f wallSize{ScreenSize::s_width/10.f, 100.f};
 	float wallSpeed = 1.5f;
@@ -111,15 +116,22 @@ protected:
 	float height = 30.f;
 	float xPosition = 400.f;
 	float yPosition = 550.f;
-	float speed = 6.f;
+	float speed = 3.f;
 	static int const NUM_PROJECTILES = 10;
 	sf::RectangleShape projectiles[NUM_PROJECTILES];
 	sf::Vector2f projectileSize{15.f, 15.f};
-	sf::Vector2f projectilePosition{xPosition, yPosition};
+	int offScreen = 1000;
+	sf::Vector2f projectilePosition{offScreen, yPosition};
 	int activeBullets = 0;
 	bool shooting = false;
-	int shootCooldown = 60;
-	int timer = 0;
+	int shootCooldown = 20;
+	int shootInterval = 0;
+	int shootSpeed = -5;
+
+	static int const ENEMY_PROJECTILES = 5;
+	sf::RectangleShape enemyProjectiles[ENEMY_PROJECTILES];
+	sf::Vector2f startPositionProj[ENEMY_PROJECTILES];
+	int enemyTimer = 30;
 
 
 #ifdef TEST_FPS
