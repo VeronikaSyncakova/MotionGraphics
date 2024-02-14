@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include "ScreenSize.h"
+#include<SFML/Audio.hpp>
 
 /// <summary>
 /// @author RP
@@ -89,20 +90,26 @@ protected:
 	void projectileCollision();
 	void enemyShooting();
 
+	bool collisionEnemies();
+
 	// Font used for all text
 	sf::Font m_arialFont;
+
+	sf::Text gameOverText;
+	sf::Text winText;
+	sf::Text scoreText;
 	// main window
 	sf::RenderWindow m_window;
 	static int const BLOCKS_NUM = 100;
 	int levelData[BLOCKS_NUM] =
 	{ 1,1,1,1,0,0,1,1,1,1,
-	1,1,1,1,0,0,0,0,1,1,
-	1,1,1,1,0,0,0,4,1,1,
+	1,1,1,1,0,0,0,5,1,1,
+	1,1,1,1,5,0,0,4,1,1,
 	1,1,1,1,4,0,0,0,1,1,
 	1,1,1,1,1,4,0,0,1,1,
-	1,1,1,1,1,1,0,0,0,1,
+	1,1,1,1,1,1,0,5,0,1,
 	1,1,1,1,1,0,0,0,1,1,
-	1,1,1,0,0,0,4,1,1,1,
+	1,1,1,0,5,0,4,1,1,1,
 	1,1,1,0,0,0,1,1,1,1,
 	1,1,1,4,0,0,0,1,1,1 };
 	sf::RectangleShape levelWalls[BLOCKS_NUM];
@@ -132,6 +139,23 @@ protected:
 	sf::RectangleShape enemyProjectiles[ENEMY_PROJECTILES];
 	sf::Vector2f startPositionProj[ENEMY_PROJECTILES];
 	int enemyTimer = 30;
+	bool gameOver{ false };
+	int scoreCounter = 0;
+
+
+	sf::SoundBuffer shootBuffer;
+	sf::Sound shootSound;
+
+	sf::SoundBuffer loosingBuffer;
+	sf::Sound loosingSound;
+	bool loosingSoundPlay{ true };
+
+	sf::SoundBuffer winBuffer;
+	sf::Sound winSound;
+	bool winSoundPlay{ true };
+
+	sf::SoundBuffer pointBuffer;
+	sf::Sound pointSound;
 
 
 #ifdef TEST_FPS

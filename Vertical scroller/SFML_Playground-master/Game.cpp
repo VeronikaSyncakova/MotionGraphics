@@ -18,10 +18,66 @@ void Game::init()
 	// Really only necessary is our target FPS is greater than 60.
 	m_window.setVerticalSyncEnabled(true);
 
+	if (gameOver)
+	{
+		loosingSoundPlay = true;
+		winSoundPlay = true;
+		gameOver = false;
+		scoreCounter = 0;
+		levelData[17] = 5;
+		levelData[24] = 5;
+		levelData[27] = 4;
+		levelData[34] = 4;
+		levelData[45] = 4;
+		levelData[57] = 5;
+		levelData[74] = 5;
+		levelData[76] = 4;
+		levelData[93] = 4;
+	}
+	
+	if (!shootBuffer.loadFromFile("shootSound.wav"))
+	{//error message
+		std::cout << "problem loading sound" << std::endl;
+	}
+	shootSound.setBuffer(shootBuffer);
+
+	if (!loosingBuffer.loadFromFile("loosingSound.wav"))
+	{//error message
+		std::cout << "problem loading sound" << std::endl;
+	}
+	loosingSound.setBuffer(loosingBuffer);
+
+	if (!pointBuffer.loadFromFile("pointSound.wav"))
+	{//error message
+		std::cout << "problem loading sound" << std::endl;
+	}
+	pointSound.setBuffer(pointBuffer);
+
+	if (!winBuffer.loadFromFile("winSound.wav"))
+	{//error message
+		std::cout << "problem loading sound" << std::endl;
+	}
+	winSound.setBuffer(winBuffer);
+	
+
 	if (!m_arialFont.loadFromFile("BebasNeue.otf"))
 	{
 		std::cout << "Error loading font file";
 	}
+
+	gameOverText.setFont(m_arialFont);
+	gameOverText.setPosition(100.f, 100.f);
+	gameOverText.setString("Game over!");
+
+	winText.setFont(m_arialFont);
+	winText.setPosition(400.f,100.f);
+	winText.setString("");
+
+	scoreText.setFont(m_arialFont);
+	scoreText.setOutlineColor(sf::Color::Black);
+	scoreText.setOutlineThickness(3);
+	scoreText.setPosition(100.f, 150.f);
+	scoreText.setString("score: ");
 
 	simpleRectangle.setSize(sf::Vector2f(width, height));
 	simpleRectangle.setFillColor(sf::Color::Red);
@@ -41,6 +97,11 @@ void Game::init()
 		if (levelData[i] == 4)
 		{
 			levelWalls[i].setFillColor(sf::Color::Blue);
+		}
+		else if (levelData[i] == 5)
+		{
+			levelWalls[i].setFillColor(sf::Color::Green);
+			levelWalls[i].setSize(wallSize/2.f);
 		}
 		else
 		{
@@ -67,7 +128,7 @@ void Game::init()
 	int counter = 0;
 	for (int j = 0; j < BLOCKS_NUM; j++)
 	{
-		if (levelData[j] >= 2)
+		if (levelData[j] >= 2 && levelData[j]<5)
 		{
 			enemyProjectiles[counter].setPosition(levelWalls[j].getPosition() + wallSize / 2.f);
 			startPositionProj[counter] = levelWalls[j].getPosition() + wallSize / 2.f;
@@ -173,17 +234,32 @@ void Game::processKeys()
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
 			shooting = true;
-			if (activeBullets < 10);
 			activeBullets++;
 			shootInterval = shootCooldown;
+		}
+	}
+	if (gameOver)
+	{
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
+		{
+			init();
 		}
 	}
 }
 
 void Game::moveDown()
 {
-	if (y > ScreenSize::s_height-100)
+	if (y > ScreenSize::s_height - 100)
+	{
+		gameOver = true;
+		gameOverText.setString("You won!");
+		if (winSoundPlay)
+		{
+			winSound.play();
+			winSoundPlay = false;
+		}
 		return;
+	}
 	y += 10 * wallSize.y+wallSpeed;
 	x = 0.f;
 	for (int i = 0; i < BLOCKS_NUM; i++)
@@ -210,6 +286,15 @@ bool Game::collision()
 			if (levelWalls[i].getGlobalBounds().intersects(enemyProjectiles[j].getGlobalBounds()) && levelData[i] == 1)
 				enemyProjectiles[j].setPosition(startPositionProj[j].x, enemyProjectiles[j].getPosition().y);
 		}
+		if (levelData[i] == 5)
+		{
+			if (levelWalls[i].getGlobalBounds().intersects(simpleRectangle.getGlobalBounds()))
+			{
+				levelData[i] = 0;
+				scoreCounter += 5;
+				pointSound.play();
+			}
+		}
 		if (levelData[i] == 1)
 		{
 			if (levelWalls[i].getGlobalBounds().intersects(simpleRectangle.getGlobalBounds()))
@@ -226,19 +311,30 @@ void Game::projectileCollision()
 {
 	for (int i = 0; i < BLOCKS_NUM; i++)
 	{
-		if (levelData[i] != 0)
+		if (levelData[i] != 0 && levelData[i]!=5 && levelData[i]!=-1)
 		{
 			for (int j = 0; j < NUM_PROJECTILES; j++)
 			{
 				if (levelWalls[i].getGlobalBounds().intersects(projectiles[j].getGlobalBounds()))
 				{
-					if (levelData[i] > 2)
+					if (levelData[i] > 2 && levelData[i]<5)
 					{
 						levelData[i]-- ;
 					}
 					else if (levelData[i] == 2)
 					{
-						levelData[i] = 0;
+ 						levelData[i] = -1;
+						for (int j = 0; j < ENEMY_PROJECTILES; j++)
+						{
+							float positionE = levelWalls[i].getPosition().y+(wallSize.y/2.f);
+							float positionP = enemyProjectiles[j].getPosition().y;
+							if (positionE == positionP)
+							{
+								enemyProjectiles[j].setPosition(offScreen, ScreenSize::s_height*2);
+								break;
+							}
+						}
+
 					}
 					projectiles[j].setPosition(offScreen, yPosition);
 				}
@@ -253,25 +349,59 @@ void Game::enemyShooting()
 
 	for (int i = 0; i < BLOCKS_NUM; i++)
 	{
-
-		if (levelData[i] >= 2)
+		if (levelData[i] != 5)
 		{
-			if (levelData[i + 1] == 1)//shooting to the left 
+			if (levelData[i] >= 2 || levelData[i] == -1)
 			{
-				enemyProjectiles[counter].move(-5.0f, 0.0f);
-				counter++;
-				continue;
+				if (levelData[i + 1] == 1)//shooting to the left 
+				{
+					enemyProjectiles[counter].move(-5.0f, 0.0f);
+					counter++;
+					continue;
 
-			}
-			else // shooting to the right (levelData[i - 1] == -1)
-			{
-				enemyProjectiles[counter].move(5.0f, 0.0f);
-				counter++;
-				continue;
+				}
+				else // shooting to the right (levelData[i - 1] == -1)
+				{
+					enemyProjectiles[counter].move(5.0f, 0.0f);
+					counter++;
+					continue;
+				}
 			}
 		}
 	}
 	enemyTimer--;
+}
+
+bool Game::collisionEnemies()
+{
+	for (int i = 0; i < BLOCKS_NUM; i++)
+	{
+		if (levelData[i] >= 2 && levelData[i]<5)
+		{
+			if (levelWalls[i].getGlobalBounds().intersects(simpleRectangle.getGlobalBounds()))
+			{
+				gameOver = true;
+				if (loosingSoundPlay)
+				{
+					loosingSound.play();
+					loosingSoundPlay = false;
+				}
+			}
+		}
+	}
+	for (int i = 0; i < ENEMY_PROJECTILES; i++)
+	{
+		if ( simpleRectangle.getGlobalBounds().intersects(enemyProjectiles[i].getGlobalBounds()))
+		{
+			gameOver = true;
+			if (loosingSoundPlay)
+			{
+				loosingSound.play();
+				loosingSoundPlay = false;
+			}
+		}
+	}
+	return gameOver;
 }
 
 void Game::moveProjectiles()
@@ -288,6 +418,7 @@ void Game::shoot()
 {
 	if (shooting)
 	{
+		shootSound.play();
 		for (int i = 0; i < NUM_PROJECTILES; i++)
 		{
 			if (projectiles[i].getPosition().x == offScreen)
@@ -307,7 +438,7 @@ void Game::update(double dt)
 {
 	processKeys();
 	simpleRectangle.setPosition(xPosition, yPosition);
-	if (!collision())
+	if (!collision() && !gameOver)
 	{
 		moveDown();
 		enemyShooting();
@@ -315,6 +446,7 @@ void Game::update(double dt)
 	shoot();
 	moveProjectiles();
 	projectileCollision();
+	scoreText.setString("score: " + std::to_string(scoreCounter));
 }
 
 ////////////////////////////////////////////////////////////
@@ -324,7 +456,7 @@ void Game::render()
 
 	for (int index = 0; index < BLOCKS_NUM; index++)
 	{
-		if (levelData[index] !=0)
+		if (levelData[index] >0)
 		{
 			m_window.draw(levelWalls[index]);
 		}
@@ -337,11 +469,20 @@ void Game::render()
 	{
 		m_window.draw(enemyProjectiles[i]);
 	}
+
+	if (collisionEnemies())
+	{
+		m_window.clear(sf::Color(0, 0, 0, 0));
+		m_window.draw(gameOverText);
+		winText.setString("Press enter to restart");
+		m_window.draw(winText);
+	}
+	m_window.draw(scoreText);
 	m_window.draw(simpleRectangle);
 
 #ifdef TEST_FPS
-	m_window.draw(x_updateFPS);
-	m_window.draw(x_drawFPS);
+	//m_window.draw(x_updateFPS);
+	//m_window.draw(x_drawFPS);
 #endif
 	m_window.display();
 }
