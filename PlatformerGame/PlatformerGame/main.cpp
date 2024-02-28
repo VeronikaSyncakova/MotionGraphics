@@ -16,6 +16,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <time.h> 
+#include <SFML/Audio.hpp>
 
 class Game
 {
@@ -30,6 +31,21 @@ public:
 
 	sf::Texture m_tileTexture;
 	sf::Sprite m_tiles;
+
+	sf::SoundBuffer m_jumpB;
+	sf::SoundBuffer m_longJumpB;
+	sf::SoundBuffer m_whoopB;
+	sf::SoundBuffer m_endB;
+	sf::SoundBuffer m_looseB;
+	sf::SoundBuffer m_backgroundB;
+
+	sf::Sound m_jumpS;
+	sf::Sound m_longJumpS;
+	sf::Sound m_whoopS;
+	sf::Sound m_endS;
+	sf::Sound m_looseS;
+	sf::Sound m_backgroundS;
+
 
 	float m_frameCounter = 0.0f; //which frame
 	float m_frameIncrement = 0.2f; // speed of animation
@@ -208,15 +224,45 @@ public:
 
 		if (!m_tileTexture.loadFromFile("ASSETS/IMAGES/tiles.png"))
 		{
-			std::cout << "could not load player spritesheet\n";
+			std::cout << "could not load player tile spritesheet\n";
 		}
-		//m_tiles.setTexture(m_texture);
-		//m_tiles.setTextureRect(sf::IntRect(0, 0, 70, 30));
 		
+		if (!m_jumpB.loadFromFile("ASSETS/AUDIO/Jump.wav"))
+		{
+			std::cout << "could not load audio\n";
+		}
+		m_jumpS.setBuffer(m_jumpB);
+		if (!m_longJumpB.loadFromFile("ASSETS/AUDIO/LongJump.wav"))
+		{
+			std::cout << "could not load audio\n";
+		}
+		m_jumpS.setBuffer(m_jumpB);
+		if (!m_whoopB.loadFromFile("ASSETS/AUDIO/Whoop.wav"))
+		{
+			std::cout << "could not load audio\n";
+		}
+		m_whoopS.setBuffer(m_whoopB);
+		if (!m_endB.loadFromFile("ASSETS/AUDIO/EndTile.wav"))
+		{
+			std::cout << "could not load audio\n";
+		}
+		m_endS.setBuffer(m_endB);
+		if (!m_looseB.loadFromFile("ASSETS/AUDIO/StartAgain.wav"))
+		{
+			std::cout << "could not load audio\n";
+		}
+		m_looseS.setBuffer(m_looseB);
+		if (!m_backgroundB.loadFromFile("ASSETS/AUDIO/Background.wav"))
+		{
+			std::cout << "could not load audio\n";
+		}
+		m_backgroundS.setBuffer(m_backgroundB);
+		m_backgroundS.play();
+		m_backgroundS.setLoop(true);
 	}
 	void init()
 	{
-
+		m_looseS.play();
 		view = window.getDefaultView();
 		playerShape.setSize(sf::Vector2f(20, 50));
 		playerShape.setOrigin(10, 0);
@@ -339,7 +385,7 @@ public:
 
 	void initLevel2()
 	{
-
+		m_looseS.play();
 		view = window.getDefaultView();
 		playerShape.setSize(sf::Vector2f(20, 50));
 		playerShape.setOrigin(10, 0);
@@ -489,6 +535,7 @@ public:
 								velocityY = -16.f;
 								jumping = true;
 								playerShape.move(0, -playerShape.getGlobalBounds().height);
+								m_longJumpS.play();
 								break;
 							}
 							else {
@@ -509,6 +556,7 @@ public:
 								playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
 								playerShape.move(0, -playerShape.getGlobalBounds().height);
 								reachedEnd = true;
+								m_endS.play();
 								break;
 							}
 							else {
@@ -529,6 +577,7 @@ public:
 								playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
 								playerShape.move(0, -playerShape.getGlobalBounds().height);
 								turn = !turn;
+								m_whoopS.play();
 								break;
 							}
 							else {
@@ -601,6 +650,7 @@ public:
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && velocityY == 0)
 				{
+					m_jumpS.play();
 					if (reachedEnd)
 					{
 						initLevel2();
@@ -661,6 +711,7 @@ public:
 											velocityY = -16.f;
 											jumping = true;
 											playerShape.move(0, -playerShape.getGlobalBounds().height);
+											m_longJumpS.play();
 											break;
 										}
 										else {
@@ -682,6 +733,7 @@ public:
 											playerShape.move(0, -playerShape.getGlobalBounds().height);
 											reachedEnd = true;
 											currentLevel = 2;
+											m_endS.play();
 											break;
 										}
 										else {
@@ -702,6 +754,7 @@ public:
 											playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
 											playerShape.move(0, -playerShape.getGlobalBounds().height);
 											turn = !turn;
+											m_whoopS.play();
 											break;
 										}
 										else {
