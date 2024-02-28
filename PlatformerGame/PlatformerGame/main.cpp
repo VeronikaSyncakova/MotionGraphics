@@ -28,6 +28,9 @@ public:
 	sf::Texture m_texture;
 	sf::Sprite m_sprite;
 
+	sf::Texture m_tileTexture;
+	sf::Sprite m_tiles;
+
 	float m_frameCounter = 0.0f; //which frame
 	float m_frameIncrement = 0.2f; // speed of animation
 	int m_frame = 0; //chooses frame
@@ -35,10 +38,11 @@ public:
 
 	bool jumping = false;
 	bool turn = false;
+	bool reachedEnd = false;
 
 	float velocityX = 0, velocityY = 0, gravity = 0.3;
 
-
+	int currentLevel = 1;
 
 
 	static const int numRows = 45;
@@ -160,8 +164,32 @@ public:
 	{ 1, 5, 1, 1, 1, 1, 1, 2, 1, 1, 1, , 1, 1, 1, _, _, 3, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, }
 	{ */
 
-	sf::RectangleShape levelH[numCols][numRows];
+	int levelDataH2[numCols][numRows] =
+	{
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 5, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 4, 1, 1, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 0, 4, 1, 4, 1, 1, 1, 1, 1, 5, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,},
+		{0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1,},
+		{0, 0, 0, 0, 0, 1, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+		{1, 5, 1, 1, 1, 1, 1, 2, 1, 1, 1, 4, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,},
+	};
 
+	sf::RectangleShape levelH[numCols][numRows];
+	sf::Sprite tiles[numCols][numRows];
 
 	//sf::RectangleShape level[numRows][numCols];
 
@@ -177,6 +205,14 @@ public:
 		m_sprite.setTextureRect(sf::IntRect(0, 0, 80, 100));
 		m_sprite.setOrigin(40, 0);
 		m_sprite.setScale(0.5f, 0.5f);
+
+		if (!m_tileTexture.loadFromFile("ASSETS/IMAGES/tiles.png"))
+		{
+			std::cout << "could not load player spritesheet\n";
+		}
+		//m_tiles.setTexture(m_texture);
+		//m_tiles.setTextureRect(sf::IntRect(0, 0, 70, 30));
+		
 	}
 	void init()
 	{
@@ -230,29 +266,38 @@ public:
 		{
 			for (int col = 0; col < numRows; col++)
 			{
+				tiles[row][col].setTexture(m_tileTexture);
 				if (levelDataH[row][col] == 1)
 				{
 					levelH[row][col].setFillColor(sf::Color::Red);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 0, 70, 30));
 				}
 				else if (levelDataH[row][col] == 0)
 				{
 					levelH[row][col].setFillColor(sf::Color::Black);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 150, 70, 30));
 				}
 				else if (levelDataH[row][col] == 2)
 				{
 					levelH[row][col].setFillColor(sf::Color::Blue);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 120, 70, 30));
+					
 				}
 				else if (levelDataH[row][col] == 3)//final tile
 				{
 					levelH[row][col].setFillColor(sf::Color::Green);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 90, 70, 30));
+
 				}
 				else if (levelDataH[row][col] == 4) //jump
 				{
 					levelH[row][col].setFillColor(sf::Color::Cyan);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 60, 70, 30));
 				}
 				else if (levelDataH[row][col] == 5) //turn
 				{
 					levelH[row][col].setFillColor(sf::Color::Magenta);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 30, 70, 60));
 				}
 				levelH[row][col].setSize(sf::Vector2f(70, 30));
 				levelH[row][col].setPosition(col * 70, row * 30);
@@ -291,13 +336,242 @@ public:
 		}*/
 
 	}
+
+	void initLevel2()
+	{
+
+		view = window.getDefaultView();
+		playerShape.setSize(sf::Vector2f(20, 50));
+		playerShape.setOrigin(10, 0);
+		playerShape.setPosition(160, 500);
+		turn = false;
+		reachedEnd = false;
+		std::cout << "{{ ";
+		//prints out the horizontal level data
+		for (int row = 0; row < numCols; row++)
+		{
+			for (int col = 0; col < numRows; col++)
+			{
+				if (levelDataH2[row][col] == 0)
+				{
+					std::cout << "_";
+				}
+				else if (levelDataH2[row][col] == 1)
+				{
+					std::cout << "1";
+				}
+				else if (levelDataH2[row][col] == 2)
+				{
+					std::cout << "2";
+				}
+				else if (levelDataH2[row][col] == 3)
+				{
+					std::cout << "3";
+				}
+				std::cout << ",";
+			}
+			std::cout << "} \n { ";
+
+		}
+		std::cout << "/////////////////////////////////////////////////////" << std::endl;
+
+		//setup horizontal levelData
+		for (int row = 0; row < numCols; row++)
+		{
+			for (int col = 0; col < numRows; col++)
+			{
+				tiles[row][col].setTexture(m_tileTexture);
+				if (levelDataH2[row][col] == 1)
+				{
+					levelH[row][col].setFillColor(sf::Color::Red);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 0, 70, 30));
+				}
+				else if (levelDataH2[row][col] == 0)
+				{
+					levelH[row][col].setFillColor(sf::Color::Black);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 150, 70, 30));
+				}
+				else if (levelDataH2[row][col] == 2)
+				{
+					levelH[row][col].setFillColor(sf::Color::Blue);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 120, 70, 30));
+
+				}
+				else if (levelDataH2[row][col] == 3)//final tile
+				{
+					levelH[row][col].setFillColor(sf::Color::Green);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 90, 70, 30));
+
+				}
+				else if (levelDataH2[row][col] == 4) //jump
+				{
+					levelH[row][col].setFillColor(sf::Color::Cyan);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 60, 70, 30));
+				}
+				else if (levelDataH2[row][col] == 5) //turn
+				{
+					levelH[row][col].setFillColor(sf::Color::Magenta);
+					tiles[row][col].setTextureRect(sf::IntRect(0, 30, 70, 60));
+				}
+				levelH[row][col].setSize(sf::Vector2f(70, 30));
+				levelH[row][col].setPosition(col * 70, row * 30);
+			}
+		}
+
+		/*
+		for (int row = 0; row < numRows; row++)
+		{
+			for (int col = 0; col < numCols; col++)
+			{
+				if (levelData[row][col] == 1)
+				{
+
+					level[row][col].setSize(sf::Vector2f(70, 30));
+					level[row][col].setPosition(row * 70, col * 30);
+					level[row][col].setFillColor(sf::Color::Red);
+				}
+				if (levelData[row][col] == 0)
+				{
+
+					level[row][col].setSize(sf::Vector2f(70, 30));
+					level[row][col].setPosition(row * 70, col * 30);
+					level[row][col].setFillColor(sf::Color::Black);
+				}
+				if (levelData[row][col] == 2)
+				{
+					level[row][col].setSize(sf::Vector2f(70, 30));
+					level[row][col].setPosition(row * 70, col * 30);
+
+					level[row][col].setFillColor(sf::Color::Blue);
+
+				}
+			}
+			//std::cout << std::endl;
+		}*/
+
+	}
+
+	void level2()
+	{
+		for (int row = 0; row < numCols; row++)
+		{
+			for (int col = 0; col < numRows; col++)
+			{
+				if (velocityY >= 0)
+				{
+					if (levelDataH2[row][col] == 1)
+					{
+
+						if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+						{
+							if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+							{
+								gravity = 0;
+								velocityY = 0;
+								jumping = false;
+								playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
+								playerShape.move(0, -playerShape.getGlobalBounds().height);
+								break;
+							}
+							else {
+								initLevel2();
+							}
+						}
+					}
+					if (levelDataH2[row][col] == 4)
+					{
+
+						if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+						{
+							if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+							{
+								gravity = 0.6f;
+								velocityY = -16.f;
+								jumping = true;
+								playerShape.move(0, -playerShape.getGlobalBounds().height);
+								break;
+							}
+							else {
+								initLevel2();
+							}
+						}
+					}
+					if (levelDataH2[row][col] == 3)
+					{
+
+						if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+						{
+							if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+							{
+								gravity = 0.f;
+								velocityY = 0.f;
+								jumping = false;
+								playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
+								playerShape.move(0, -playerShape.getGlobalBounds().height);
+								reachedEnd = true;
+								break;
+							}
+							else {
+								initLevel2();
+							}
+						}
+					}
+					if (levelDataH2[row][col] == 5)
+					{
+
+						if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+						{
+							if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+							{
+								gravity = 0.f;
+								velocityY = 0.f;
+								jumping = false;
+								playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
+								playerShape.move(0, -playerShape.getGlobalBounds().height);
+								turn = !turn;
+								break;
+							}
+							else {
+								turn = false;
+								initLevel2();
+							}
+						}
+					}
+
+				}
+				if (velocityY < 0) //if jumping
+				{
+					if (levelDataH2[row][col] == 1)
+					{
+
+						if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+						{
+							initLevel2();
+						}
+
+					}
+
+				}
+				if (levelDataH2[row][col] == 2)
+				{
+
+					if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+					{
+						initLevel2();
+					}
+
+				}
+			}
+		}
+	}
+
 	void run()
 	{
 		sf::Time timePerFrame = sf::seconds(1.0f / 60.0f);
 		sf::Time timeSinceLastUpdate = sf::Time::Zero;
 		sf::Clock clock;
 		clock.restart();
-		bool reachedEnd = false;
+		
 		
 
 		while (window.isOpen())
@@ -327,9 +601,16 @@ public:
 
 				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && velocityY == 0)
 				{
-					velocityY = -12;
-					m_frameCounter = 0.f;
-					jumping = true;
+					if (reachedEnd)
+					{
+						initLevel2();
+					}
+					else
+					{
+						velocityY = -12;
+						m_frameCounter = 0.f;
+						jumping = true;
+					}
 				}
 
 				velocityY = velocityY + gravity;
@@ -338,115 +619,124 @@ public:
 
 				gravity = 0.6;
 
-				for (int row = 0; row < numCols; row++)
+				if (currentLevel == 2)
 				{
-					for (int col = 0; col < numRows; col++)
+					level2();
+				}
+				else
+				{
+					for (int row = 0; row < numCols; row++)
 					{
-						if (velocityY >= 0)
+						for (int col = 0; col < numRows; col++)
 						{
-							if (levelDataH[row][col] == 1)
+							if (velocityY >= 0)
 							{
-								
-								if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+								if (levelDataH[row][col] == 1)
 								{
-									if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+
+									if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
 									{
-										gravity = 0;
-										velocityY = 0;
-										jumping = false;
-										playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
-										playerShape.move(0, -playerShape.getGlobalBounds().height);
-										break;
-									}
-									else {
-										init();
+										if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+										{
+											gravity = 0;
+											velocityY = 0;
+											jumping = false;
+											playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
+											playerShape.move(0, -playerShape.getGlobalBounds().height);
+											break;
+										}
+										else {
+											init();
+										}
 									}
 								}
-							}
-							if (levelDataH[row][col] == 4)
-							{
-
-								if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+								if (levelDataH[row][col] == 4)
 								{
-									if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+
+									if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
 									{
-										gravity = 0.6f;
-										velocityY = -16.f;
-										jumping = true;
-										playerShape.move(0, -playerShape.getGlobalBounds().height);
-										break;
-									}
-									else {
-										init();
+										if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+										{
+											gravity = 0.6f;
+											velocityY = -16.f;
+											jumping = true;
+											playerShape.move(0, -playerShape.getGlobalBounds().height);
+											break;
+										}
+										else {
+											init();
+										}
 									}
 								}
-							}
-							if (levelDataH[row][col] == 3)
-							{
-
-								if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+								if (levelDataH[row][col] == 3)
 								{
-									if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+
+									if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
 									{
-										gravity = 0.f;
-										velocityY = 0.f;
-										jumping = false;
-										playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
-										playerShape.move(0, -playerShape.getGlobalBounds().height);
-										reachedEnd = true;
-										break;
-									}
-									else {
-										init();
+										if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+										{
+											gravity = 0.f;
+											velocityY = 0.f;
+											jumping = false;
+											playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
+											playerShape.move(0, -playerShape.getGlobalBounds().height);
+											reachedEnd = true;
+											currentLevel = 2;
+											break;
+										}
+										else {
+											init();
+										}
 									}
 								}
-							}
-							if (levelDataH[row][col] == 5)
-							{
-
-								if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+								if (levelDataH[row][col] == 5)
 								{
-									if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+
+									if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
 									{
-										gravity = 0.f;
-										velocityY = 0.f;
-										jumping = false;
-										playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
-										playerShape.move(0, -playerShape.getGlobalBounds().height);
-										turn = !turn;
-										break;
-									}
-									else {
-										turn = false;
-										init();
+										if (playerShape.getPosition().y < levelH[row][col].getPosition().y)
+										{
+											gravity = 0.f;
+											velocityY = 0.f;
+											jumping = false;
+											playerShape.setPosition(playerShape.getPosition().x, levelH[row][col].getPosition().y);
+											playerShape.move(0, -playerShape.getGlobalBounds().height);
+											turn = !turn;
+											break;
+										}
+										else {
+											turn = false;
+											init();
+										}
 									}
 								}
-							}
 
-						}
-						if (velocityY < 0) //if jumping
-						{
-							if (levelDataH[row][col] == 1)
+							}
+							if (velocityY < 0) //if jumping
 							{
-								
+								if (levelDataH[row][col] == 1)
+								{
+
+									if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
+									{
+										init();
+									}
+
+								}
+
+							}
+							if (levelDataH[row][col] == 2)
+							{
+
 								if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
 								{
 									init();
 								}
-								
-							}
 
-						}
-						if (levelDataH[row][col] == 2)
-						{
-							
-							if (playerShape.getGlobalBounds().intersects(levelH[row][col].getGlobalBounds()))
-							{
-								init();
 							}
-							
 						}
 					}
+
 				}
 
 				if (playerShape.getPosition().y > 600)
@@ -504,8 +794,9 @@ public:
 				{
 					for (int col = 0; col < numRows; col++)
 					{
-						window.draw(levelH[row][col]);
-
+						tiles[row][col].setPosition(levelH[row][col].getPosition());
+						//window.draw(levelH[row][col]);
+						window.draw(tiles[row][col]);
 					}
 				}
 
