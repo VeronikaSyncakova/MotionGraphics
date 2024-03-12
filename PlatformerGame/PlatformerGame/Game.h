@@ -1,7 +1,4 @@
-/// <summary>
-/// author Pete Lowe May 2019
-/// you need to change the above line or lose marks
-/// </summary>
+//Veronika Syncakova c00288340
 #ifndef GAME_HPP
 #define GAME_HPP
 /// <summary>

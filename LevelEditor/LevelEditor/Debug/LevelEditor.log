@@ -1,0 +1,16 @@
+﻿  main.cpp
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(134,46): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(215,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(215,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(228,1): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(243,1): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(317,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(366,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(366,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(437,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(448,48): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  LevelEditor.vcxproj -> C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\Debug\LevelEditor.exe

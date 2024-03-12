@@ -1,4 +1,15 @@
-﻿  main.cpp
+﻿  Game.cpp
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(30,48): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(107,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(107,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(114,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(114,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(120,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(120,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(167,29): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(175,19): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\Game.cpp(182,15): warning C4305: '=': truncation from 'double' to 'float'
+  main.cpp
 C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\main.cpp(59,48): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\main.cpp(349,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\main.cpp(349,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -7,4 +18,5 @@ C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Mot
 C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\main.cpp(644,32): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\main.cpp(646,31): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\PlatformerGame\main.cpp(670,15): warning C4305: '=': truncation from 'double' to 'float'
+  Generating Code...
   PlatformerGame.vcxproj -> C:\Users\C00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\PlatformerGame\Debug\PlatformerGame.exe
