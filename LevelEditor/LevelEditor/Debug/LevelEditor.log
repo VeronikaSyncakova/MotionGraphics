@@ -1,14 +1,39 @@
 ﻿  main.cpp
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(134,46): warning C4305: 'initializing': truncation from 'double' to 'float'
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(215,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(215,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(228,1): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(243,1): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(317,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(366,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(366,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(437,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(448,48): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(142,48): warning C4305: 'initializing': truncation from 'double' to 'float'
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(243,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(243,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(258,30): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(260,29): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(275,13): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(457,39): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(508,48): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(508,38): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(581,101): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(581,66): warning C4244: 'argument': conversion from 'T' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+          and
+          [
+              T=float
+          ]
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(640,23): warning C4018: '<': signed/unsigned mismatch
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(719,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(732,48): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+C:\Users\c00288340\OneDrive - South East Technological University\SEMESTER 2\Motion Graphics\MotionGraphics\LevelEditor\LevelEditor\main.cpp(754,44): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
